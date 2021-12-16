@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Flex, Box, Text, Button } from '@chakra-ui/react'
+import { BASE_URL, fetchApi } from '../utils/fetchApi'
 
 const Banner = ({
   purpose,
@@ -9,7 +10,7 @@ const Banner = ({
   title2,
   desc1,
   desc2,
-  butText,
+  btnText,
   linkName,
 }) => (
   <Flex flexwrap="wrap" justifyContent="center" alignItems="center" m="10">
@@ -26,39 +27,60 @@ const Banner = ({
         {desc1}
         <br /> {desc2}
       </Text>
-      <Button fontSize="xl" bg="blue.300" color="white">
+      <Button fontSize="xl">
         <Link href={linkName}>
-          <a>{butText}</a>
+          <a>{btnText}</a>
         </Link>
       </Button>
     </Box>
   </Flex>
 )
-export default function Home() {
+export default function Home({ propertiesForSale, propertiesForRent }) {
+  console.log(
+    '🚀 ~ file: index.js ~ line 39 ~ Home ~ propertiesForSale,propertiesForRent',
+    propertiesForSale,
+    propertiesForRent
+  )
+
   return (
-    <div>
-      <h1>hello world</h1>
+    <Box>
       <Banner
         purpose="RENT A HOME"
         title1="Rental Homes for"
         title2="Everyone"
         desc1="Explore Apartments, Houses"
         desc2="and more"
-        buttonText="Explore Renting"
+        btnText="Explore Renting"
         linkName="/search?purpose=for-rent"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
+      <Flex flexWrap="wrap">{/* fetch properties */}</Flex>
       <Banner
         purpose="BUY A HOME"
         title1="Find, Buy and Own Your"
         title2="Dream Home"
         desc1="Explore Apartments, Houses"
         desc2="and more"
-        buttonText="Explore Renting"
+        btnText="Explore Renting"
         linkName="/search?purpose=for-sale"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
-    </div>
+    </Box>
   )
 }
-1
+
+export async function getStaticProps() {
+  const propertyForSale = await fetchApi(
+    `${BASE_URL}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
+  )
+  const propertyForRent = await fetchApi(
+    `${BASE_URL}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`
+  )
+  return {
+    props: {
+      propertiesForSale: propertyForSale?.hits,
+      propertiesForRent: propertyForRent?.hits,
+    },
+  }
+}
+// export default Home
