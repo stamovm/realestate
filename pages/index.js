@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Flex, Box, Text, Button } from '@chakra-ui/react'
+import Property from '../components/Property'
 import { BASE_URL, fetchApi } from '../utils/fetchApi'
 
 const Banner = ({
@@ -13,7 +14,7 @@ const Banner = ({
   btnText,
   linkName,
 }) => (
-  <Flex flexwrap="wrap" justifyContent="center" alignItems="center" m="10">
+  <Flex flexWrap="wrap" justifyContent="center" alignItems="center" m="10">
     <Image src={imageUrl} width={500} height={300} alt="banner" />
     <Box p="5">
       <Text color="gray.500" fontSize="sm" fontWeight="medium">
@@ -36,12 +37,6 @@ const Banner = ({
   </Flex>
 )
 export default function Home({ propertiesForSale, propertiesForRent }) {
-  console.log(
-    '🚀 ~ file: index.js ~ line 39 ~ Home ~ propertiesForSale,propertiesForRent',
-    propertiesForSale,
-    propertiesForRent
-  )
-
   return (
     <Box>
       <Banner
@@ -54,7 +49,11 @@ export default function Home({ propertiesForSale, propertiesForRent }) {
         linkName="/search?purpose=for-rent"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
-      <Flex flexWrap="wrap">{/* fetch properties */}</Flex>
+      <Flex flexWrap="wrap">
+        {propertiesForRent.map((property) => (
+          <Property property={property} key={property.id} />
+        ))}
+      </Flex>
       <Banner
         purpose="BUY A HOME"
         title1="Find, Buy and Own Your"
@@ -65,6 +64,11 @@ export default function Home({ propertiesForSale, propertiesForRent }) {
         linkName="/search?purpose=for-sale"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
+      <Flex flexWrap="wrap">
+        {propertiesForSale.map((property) => (
+          <Property property={property} key={property.id} />
+        ))}
+      </Flex>
     </Box>
   )
 }
@@ -83,4 +87,3 @@ export async function getStaticProps() {
     },
   }
 }
-// export default Home
