@@ -4,26 +4,26 @@ import { Box, Flex, Text, Avatar } from '@chakra-ui/react'
 import { FaBed, FaBath } from 'react-icons/fa'
 import { BsGridFill } from 'react-icons/bs'
 import { GoVerified } from 'react-icons/go'
-import millify from 'millify'
+import { Tooltip } from '@chakra-ui/react'
+// import millify from 'millify'
 
 import DefaultImage from '../assets/images/house.jpeg'
 
 const Property = ({
   property: {
-    coverPhoto,
+    photo,
     price,
-    rentFrequency,
-    rooms,
-    title,
+    prop_status,
+    beds,
+    address,
     baths,
-    area,
-    agency,
-    isVerified,
-    externalId,
+    sqft,
+    is_new_construction,
+    property_id,
   },
 }) => {
   return (
-    <Link href={`/property/${externalId}`} passHref>
+    <Link href={`/property/${property_id}`} passHref>
       <Flex
         flexWrap="wrap"
         w="320px"
@@ -34,7 +34,7 @@ const Property = ({
       >
         <Box>
           <Image
-            src={coverPhoto ? coverPhoto.url : DefaultImage}
+            src={photo ? photo : DefaultImage}
             width={400}
             height={260}
             alt="house"
@@ -48,16 +48,16 @@ const Property = ({
           >
             <Flex alignItems="center">
               <Box paddingRight="3" color="teal.400">
-                {isVerified && <GoVerified />}
+                {is_new_construction && <GoVerified />}
               </Box>
               <Text fontWeight="bold" fontSize="lg">
-                AED {millify(price)}
-                {rentFrequency && `/${rentFrequency}`}
+                {price}
+                {prop_status && `/${prop_status}`}
               </Text>
             </Flex>
-            <Box>
+            {/* <Box>
               <Avatar size="sm" src={agency?.logo?.url} />
-            </Box>
+            </Box> */}
           </Flex>
           <Flex
             alignItems="center"
@@ -66,13 +66,14 @@ const Property = ({
             w="250px"
             color="blue.400"
           >
-            {rooms} <FaBed /> | {baths} <FaBath />
-            {millify(area)}sqft
+            {beds} <FaBed /> | {baths} <FaBath />| {sqft}
             <BsGridFill />
           </Flex>
-          <Text fontSize="lg">
-            {title.length > 30 ? `${title.substring(0, 30)}...` : title}
-          </Text>
+          <Tooltip label={address}>
+            <Text fontSize="lg">
+              {address.length > 30 ? `${address.substring(0, 30)}...` : address}
+            </Text>
+          </Tooltip>
         </Box>
       </Flex>
     </Link>

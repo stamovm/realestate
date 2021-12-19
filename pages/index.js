@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Flex, Box, Text, Button } from '@chakra-ui/react'
 import Property from '../components/Property'
-import { BASE_URL, fetchApi } from '../utils/fetchApi'
+import { BASE_URL, BASE_URL2, fetchApi, fetchApi2 } from '../utils/fetchApi'
 
 const Banner = ({
   purpose,
@@ -36,13 +36,16 @@ const Banner = ({
     </Box>
   </Flex>
 )
-export default function Home({ propertiesForSale, propertiesForRent }) {
+
+export default function Home({ propertiesForSale, pForSaleReno }) {
+  console.log(pForSaleReno.listings[0])
+  // console.log(propertiesForSale)
   return (
     <Box>
-      <Banner
+      {/* <Banner
         purpose="RENT A HOME"
-        title1="Rental Homes for"
-        title2="Everyone"
+        title1="Homes for"
+        title2="Rental"
         desc1="Explore Apartments, Houses"
         desc2="and more"
         btnText="Explore Renting"
@@ -53,20 +56,17 @@ export default function Home({ propertiesForSale, propertiesForRent }) {
         {propertiesForRent.map((property) => (
           <Property property={property} key={property.id} />
         ))}
-      </Flex>
-      <Banner
-        purpose="BUY A HOME"
-        title1="Find, Buy and Own Your"
-        title2="Dream Home"
-        desc1="Explore Apartments, Houses"
-        desc2="and more"
-        btnText="Explore Renting"
-        linkName="/search?purpose=for-sale"
-        imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
-      />
-      <Flex flexWrap="wrap">
+      </Flex> */}
+      {/* ----------------BUY-------------- */}
+
+      {/* <Flex flexWrap="wrap">
         {propertiesForSale.map((property) => (
           <Property property={property} key={property.id} />
+        ))}
+      </Flex> */}
+      <Flex flexWrap="wrap">
+        {pForSaleReno.listings.map((property) => (
+          <Property property={property} key={property.property_id} />
         ))}
       </Flex>
     </Box>
@@ -74,16 +74,18 @@ export default function Home({ propertiesForSale, propertiesForRent }) {
 }
 
 export async function getStaticProps() {
-  const propertyForSale = await fetchApi(
-    `${BASE_URL}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
+  const propertyForSale = await fetchApi2(
+    `${BASE_URL2}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
   )
-  const propertyForRent = await fetchApi(
-    `${BASE_URL}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`
+
+  const propertyForSaleReno = await fetchApi(
+    `${BASE_URL}/properties/list-for-sale?state_code=NV&city=Reno&offset=0&limit=6&sort=relevance`
   )
+
   return {
     props: {
       propertiesForSale: propertyForSale?.hits,
-      propertiesForRent: propertyForRent?.hits,
+      pForSaleReno: propertyForSaleReno,
     },
   }
 }
