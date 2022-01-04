@@ -9,7 +9,7 @@ const Footer = () => {
       borderTop="1px"
       borderColor="gray.100"
     >
-      2021 Real Estate
+      2022 Real Estate
     </Box>
   )
 }

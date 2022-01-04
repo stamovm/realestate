@@ -37,8 +37,8 @@ const Banner = ({
   </Flex>
 )
 
-export default function Home({ propertiesForSale, pForSaleReno }) {
-  console.log(pForSaleReno.listings[0])
+export default function Home({ pForSale }) {
+  console.log(pForSale.listings[0])
   // console.log(propertiesForSale)
   return (
     <Box>
@@ -65,7 +65,7 @@ export default function Home({ propertiesForSale, pForSaleReno }) {
         ))}
       </Flex> */}
       <Flex flexWrap="wrap">
-        {pForSaleReno.listings.map((property) => (
+        {pForSale.listings.map((property) => (
           <Property property={property} key={property.property_id} />
         ))}
       </Flex>
@@ -74,18 +74,14 @@ export default function Home({ propertiesForSale, pForSaleReno }) {
 }
 
 export async function getStaticProps() {
-  const propertyForSale = await fetchApi2(
-    `${BASE_URL2}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
-  )
-
-  const propertyForSaleReno = await fetchApi(
+  const propertyForSale = await fetchApi(
     `${BASE_URL}/properties/list-for-sale?state_code=NV&city=Reno&offset=0&limit=6&sort=relevance`
   )
 
   return {
     props: {
-      propertiesForSale: propertyForSale?.hits,
-      pForSaleReno: propertyForSaleReno,
+      // propertiesForSale: propertyForSale?.hits,
+      pForSale: propertyForSale,
     },
   }
 }
