@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Box, Flex, Text, Avatar } from '@chakra-ui/react'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import { FaBed, FaBath } from 'react-icons/fa'
 import { BsGridFill } from 'react-icons/bs'
-import { GoVerified } from 'react-icons/go'
 import { Tooltip } from '@chakra-ui/react'
 // import millify from 'millify'
 
@@ -18,7 +17,6 @@ const Property = ({
     address,
     baths,
     sqft,
-    is_new_construction,
     property_id,
   },
 }) => {
@@ -27,12 +25,16 @@ const Property = ({
       <Flex
         flexWrap="wrap"
         w="320px"
-        p="5"
+        p="2"
+        mb="2"
         paddingTop="0"
         justifyContent="flex-start"
         cursor="pointer"
+        _hover={{
+          boxShadow: 'dark-lg',
+        }}
       >
-        <Box>
+        <Box mt="2">
           <Image
             src={photo ? photo : DefaultImage}
             width={400}
@@ -41,15 +43,8 @@ const Property = ({
           />
         </Box>
         <Box w="full">
-          <Flex
-            paddingTop="2"
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center">
-              <Box paddingRight="3" color="teal.400">
-                {is_new_construction && <GoVerified />}
-              </Box>
               <Text fontWeight="bold" fontSize="lg">
                 {price}
                 {prop_status && `/${prop_status}`}
@@ -64,7 +59,7 @@ const Property = ({
             p="1"
             justifyContent="space-between"
             w="250px"
-            color="blue.400"
+            color="teal.500"
           >
             {beds} <FaBed /> | {baths} <FaBath />| {sqft}
             <BsGridFill />

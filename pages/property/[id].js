@@ -19,35 +19,30 @@ const PropertyDetails = ({
     beds,
     baths,
     description,
-    address, //obj
-    heating,
+    address,
     prop_status,
     prop_type,
-    features, //arr amenities
+    features,
     photos,
   },
 }) => (
   // }
   <Box maxWidth="1000px" margin="auto" p="4">
-    {/* {console.log('🚀 [id].js ~ line 30 ~  features', features)} */}
-    {/* {console.log('🚀 ', address)} */}
+    {console.log('🚀 ', address)}
     {photos && <ImageScroll data={photos} />}
-    <Box w="full" p="6">
+    <Box w="full">
       <Flex paddingTop="2" alignItems="center">
-        {/* <Box paddingRight="3" color="green.400">
-        </Box> */}
         <Text fontWeight="bold" fontSize="lg">
           ${millify(price)} {prop_status && `/${prop_status}`}
         </Text>
         <Spacer />
-        {/* <Avatar size="sm" src={broker?.logo?.url}></Avatar> */}
       </Flex>
       <Flex
         alignItems="center"
         p="1"
         justifyContent="space-between"
         w="250px"
-        color="blue.400"
+        color="teal.400"
       >
         {beds}
         <FaBed /> | {baths} <FaBath /> | {building_size.size}{' '}
@@ -56,93 +51,45 @@ const PropertyDetails = ({
     </Box>
     <Box marginTop="2">
       <Text fontSize="lg" marginBottom="2" fontWeight="bold">
-        {/* {address} */}
+        {`${address.line}, ${address.city}, ${address.state_code}`}
       </Text>
       <Text lineHeight="2" color="gray.600">
         {description}
       </Text>
     </Box>
-    <Flex
-      flexWrap="wrap"
-      textTransform="uppercase"
-      justifyContent="space-between"
-    >
-      <Flex
-        justifyContent="space-between"
-        w="400px"
-        borderBottom="1px"
-        borderColor="gray.100"
-        p="3"
-      >
-        <Text>Type</Text>
-        <Text fontWeight="bold">{prop_type}</Text>
+    <Flex flexWrap="wrap" textTransform="uppercase">
+      <Flex w="180px" borderBottom="1px" borderColor="gray.100" pt="3">
+        <Text>Type: </Text>
+        <Text fontWeight="bold" pl="2">
+          {prop_type}
+        </Text>
       </Flex>
-      <Flex
-        justifyContent="space-between"
-        w="400px"
-        borderBottom="1px"
-        borderColor="gray.100"
-        p="3"
-      >
-        <Text>Purpose</Text>
-        <Text fontWeight="bold">{prop_status}</Text>
+      <Flex w="180px" borderBottom="1px" borderColor="gray.100" p="3">
+        <Text>Purpose:</Text>
+        <Text fontWeight="bold" pl="2">
+          {prop_status}
+        </Text>
       </Flex>
-      {heating && (
-        <Flex
-          justifyContent="space-between"
-          w="400px"
-          borderBottom="1px"
-          borderColor="gray.100"
-          p="3"
-        >
-          <Text>Heating:</Text>
-          <Text fontWeight="bold">{heating}</Text>
-        </Flex>
-      )}
     </Flex>
     <Box>
       {features.length && (
-        <Text fontSize="2xl" fontWeight="black" marginTop="5">
+        <Text fontSize="2xl" marginTop="5">
           Features:
         </Text>
       )}
       <Flex flexWrap="wrap">
-        <Accordion defaultIndex={[0]} allowMultiple>
+        <Accordion allowMultiple>
           {features?.map((item, index) => (
             <AccordionItem key={index}>
-              {/* <Text
-              key={index}
-              fontWeight="bold"
-              color="blue.800"
-              fontSize="l"
-              p="2"
-              bg="gray.200"
-              m="1"
-              borderRadius="5"
-            >
-              {item.category}
-            </Text> */}
-
               <AccordionButton>
-                <Text fontWeight="bold" color="blue.400" fontSize="l">
+                <Text color="teal.500" fontSize="l">
                   {item.category}
                 </Text>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
-                {item?.text?.map((iText, index) => (
-                  <Text
-                    key={index}
-                    // fontWeight="bold"
-                    // color="blue.400"
-                    // fontSize="m"
-                    // p="2"
-                    // bg="gray.100"
-                    // m="1"
-                    // borderRadius="5"
-                  >
-                    {iText}
-                  </Text>
+                {item?.text?.map((iText, index2) => (
+                  <Text key={index2}>{iText}</Text>
                 ))}
               </AccordionPanel>
             </AccordionItem>
