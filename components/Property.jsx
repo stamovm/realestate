@@ -4,7 +4,6 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { FaBed, FaBath } from 'react-icons/fa'
 import { BsGridFill } from 'react-icons/bs'
 import { Tooltip } from '@chakra-ui/react'
-// import millify from 'millify'
 
 import DefaultImage from '../assets/images/house.jpeg'
 
@@ -50,9 +49,6 @@ const Property = ({
                 {prop_status && `/${prop_status}`}
               </Text>
             </Flex>
-            {/* <Box>
-              <Avatar size="sm" src={agency?.logo?.url} />
-            </Box> */}
           </Flex>
           <Flex
             alignItems="center"
