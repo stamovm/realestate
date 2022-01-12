@@ -62,7 +62,9 @@ const Property = ({
           </Flex>
           <Tooltip label={address}>
             <Text fontSize="lg">
-              {address.length > 30 ? `${address.substring(0, 30)}...` : address}
+              {address?.length > 30
+                ? `${address.substring(0, 30)}...`
+                : address}
             </Text>
           </Tooltip>
         </Box>

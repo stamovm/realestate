@@ -6,12 +6,16 @@ import { BsFilter } from 'react-icons/bs'
 
 import Property from '../components/Property'
 import SearchFilters from '../components/SearchFilters'
-import { baseUrl, fetchApi } from '../utils/fetchApi'
+import { BASE_URL, fetchApi } from '../utils/fetchApi'
 import noresult from '../assets/images/noresult.svg'
 
 const Search = ({ properties }) => {
   const [searchFilters, setSearchFilters] = useState(false)
   const router = useRouter()
+  console.log(
+    '🚀 ~ file: search.js ~ line 13 ~ Search ~ properties',
+    properties
+  )
 
   return (
     <Box>
@@ -35,8 +39,8 @@ const Search = ({ properties }) => {
         Properties {router.query.purpose}
       </Text>
       <Flex flexWrap="wrap">
-        {[properties].map((property) => (
-          <Property property={property} key={property.id} />
+        {properties.listings.map((property, index) => (
+          <Property property={property} key={index} />
         ))}
       </Flex>
       {[properties].length === 0 && (
@@ -59,22 +63,26 @@ const Search = ({ properties }) => {
 
 export default Search
 
-export async function getStaticProps({ query }) {
-  const purpose = query.purpose || 'for-rent'
-  const rentFrequency = query.rentFrequency || 'yearly'
+export async function getServerSideProps({ query }) {
+  const purpose = query.purpose || 'for-sale'
   const minPrice = query.minPrice || '0'
   const maxPrice = query.maxPrice || '1000000'
-  const roomsMin = query.roomsMin || '0'
-  const bathsMin = query.bathsMin || '0'
-  const sort = query.sort || 'price-desc'
-  const areaMax = query.areaMax || '35000'
-  const locationExternalIDs = query.locationExternalIDs || '5002'
-  const categoryExternalID = query.categoryExternalID || '4'
-
-  // const data = await fetchApi(
-  //   `${BASE_URL}/properties/list-for-sale?state_code=NV&city=Reno&offset=0&limit=200&sort=relevance`
-  //   )
-
+  const bedsMin = query.bedsMin || '6'
+  const bathsMin = query.bathsMin || '6'
+  const sort = query.sort || 'newest'
+  const areaMax = query.areaMax || '5000'
+  // console.log('querry =====>>>', query)
+  let data
+  if (purpose === 'for-rent') {
+    data = await fetchApi(
+      `${BASE_URL}/properties/list-for-rent?state_code=NV&city=Reno&offset=0&limit=100&sort=${sort}&baths_min=${bathsMin}&beds_min=${bedsMin}`
+    )
+  } else {
+    data = await fetchApi(
+      `${BASE_URL}/properties/list-for-sale?state_code=NV&city=Reno&offset=0&limit=100&sort=${sort}&baths_min=${bathsMin}&beds_min=${bedsMin}&price_min=${minPrice}&price_max=${maxPrice}&sqft_max=${areaMax}`
+    )
+  }
+  //  data = { address: 'abc' }
   return {
     props: {
       properties: data,
