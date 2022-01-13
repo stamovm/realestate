@@ -1,7 +1,6 @@
 import { Flex, Box } from '@chakra-ui/react'
 import Property from '../components/Property'
 import { BASE_URL, fetchApi } from '../utils/fetchApi'
-// import Link from 'next/link'
 
 export default function Home({ pForSale }) {
   return (

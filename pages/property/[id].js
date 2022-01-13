@@ -26,9 +26,7 @@ const PropertyDetails = ({
     photos,
   },
 }) => (
-  // }
   <Box maxWidth="1000px" margin="auto" p="4">
-    {/* {console.log('🚀->> ', pDetails)} */}
     {photos && <ImageScroll data={photos} />}
     <Box w="full">
       <Flex paddingTop="2" alignItems="center">

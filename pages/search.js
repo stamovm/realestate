@@ -12,10 +12,6 @@ import noresult from '../assets/images/noresult.svg'
 const Search = ({ properties }) => {
   const [searchFilters, setSearchFilters] = useState(false)
   const router = useRouter()
-  console.log(
-    '🚀 ~ file: search.js ~ line 13 ~ Search ~ properties',
-    properties
-  )
 
   return (
     <Box>
@@ -30,13 +26,17 @@ const Search = ({ properties }) => {
         justifyContent="center"
         alignItems="center"
         onClick={() => setSearchFilters(!searchFilters)}
+        _hover={{
+          color: 'teal.600',
+        }}
       >
         <Text>Search Property By Filters</Text>
         <Icon paddingLeft="2" w="7" as={BsFilter} />
       </Flex>
       {searchFilters && <SearchFilters />}
       <Text fontSize="2xl" p="4" fontWeight="bold">
-        Properties {router.query.purpose}
+        Properties{' '}
+        {`${router.query.purpose} search results: ${properties.matching_rows}`}
       </Text>
       <Flex flexWrap="wrap">
         {properties.listings.map((property, index) => (
@@ -65,13 +65,12 @@ export default Search
 
 export async function getServerSideProps({ query }) {
   const purpose = query.purpose || 'for-sale'
-  const minPrice = query.minPrice || '0'
+  const minPrice = query.minPrice || '500'
   const maxPrice = query.maxPrice || '1000000'
-  const bedsMin = query.bedsMin || '6'
-  const bathsMin = query.bathsMin || '6'
+  const bedsMin = query.bedsMin || '1'
+  const bathsMin = query.bathsMin || '1'
   const sort = query.sort || 'newest'
   const areaMax = query.areaMax || '5000'
-  // console.log('querry =====>>>', query)
   let data
   if (purpose === 'for-rent') {
     data = await fetchApi(
@@ -82,7 +81,6 @@ export async function getServerSideProps({ query }) {
       `${BASE_URL}/properties/list-for-sale?state_code=NV&city=Reno&offset=0&limit=100&sort=${sort}&baths_min=${bathsMin}&beds_min=${bedsMin}&price_min=${minPrice}&price_max=${maxPrice}&sqft_max=${areaMax}`
     )
   }
-  //  data = { address: 'abc' }
   return {
     props: {
       properties: data,
