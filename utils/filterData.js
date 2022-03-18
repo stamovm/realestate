@@ -10,8 +10,9 @@ export const filterData = [
 
   {
     items: [
-      { name: '100,000', value: '85000' },
-      { name: '150,000', value: '85000' },
+      { name: '50,000', value: '50000' },
+      { name: '100,000', value: '100000' },
+      { name: '150,000', value: '150000' },
       { name: '200,000', value: '200000' },
       { name: '300,000', value: '300000' },
       { name: '400,000', value: '400000' },
